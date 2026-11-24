@@ -1,0 +1,447 @@
+{
+  "summary": "Kudi is a student money app that splits each bit of money a student receives into six purpose purses (feeding, transport, personal needs, academic, emergency, savings), holds back savings on every income, and lets them spend only from the purse that fits. This milestone is the full working interface running on local demo data, with no wallet and no real money.",
+  "direction": "Berry ink on blush paper: a warm, rounded student money app with a heavyweight serif display face (Fraunces), a friendly sans for body and tabular figures for every amount, big bento purse cards, one raspberry accent for actions and key numbers, thin berry hairlines instead of heavy shadows, and a phone-first layout with a thumb-high bottom tab bar.",
+  "pages": [
+    {
+      "route": "/",
+      "purpose": "Dashboard: what the student has right now, across all purses, plus the first action (add money they received).",
+      "elements": [
+        "Shared Layout on every route: top bar (icon tile with Wallet icon, wordmark \"Kudi\", a Badge reading \"Demo\"), desktop nav links Home / Money in / Spend / Report ",
+        "Demo Notice at the top of Home, tone warning, title \"Local demo\", body \"No real money moves here. Everything you add is saved on this device only.\"",
+        "Hero card (bg-primary text-primary-foreground, rounded-3xl): small label \"Your money right now\", the total across all six purses as a big tabular number (e.g. G",
+        "Three small stats under the hero for this month: \"Money in\", \"Spent\", \"Saved\" with tabular amounts and the month name.",
+        "Section heading \"Your purses\" with a link \"Edit plan\" to /setup; six purse cards in a bento grid (1 column on phones, 2 from sm, 3 from lg): Feeding, Transport,",
+        "A \"How your split works\" strip: three short numbered lines (essential purses first, emergency kept for surprises, saving a share of every income).",
+        "Reset control at the bottom: outline button \"Reset demo data\" opening a Dialog that asks \"Start over with the sample purses?\" with buttons \"Reset everything\" an",
+        "If no plan is saved yet, an info Notice \"Set your monthly needs so Kudi knows where money should go.\" with a link \"Plan my purses\" to /setup."
+      ]
+    },
+    {
+      "route": "/setup",
+      "purpose": "Set the monthly need for each essential purse and the shares held back on every income; this plan drives the automatic split.",
+      "elements": [
+        "Heading \"Plan your purses\" and a lede: \"Tell Kudi what one month of essentials costs and how much of each income to hold back. Every new amount you add follows ",
+        "Four number inputs (type number, min 0, step 100) with visible labels: \"Feeding budget\", \"Transport budget\", \"Personal needs budget\", \"Academic budget\", each pr",
+        "Two number inputs with labels \"Savings share of each income (%)\" (prefilled 20) and \"Emergency share of each income (%)\" (prefilled 10), with helper text \"The r",
+        "A read-only summary card: \"Your monthly needs\" total, and the split preview for G$10,000 (savings, emergency, and each essential share) computed with the curren",
+        "Primary button \"Save my plan\" (disabled while invalid) leading to a success Notice \"Plan saved. New money will follow these shares.\"",
+        "Small print at the bottom: \"Demo: this plan is stored on this device. Cloud saving arrives with wallet connection.\""
+      ]
+    },
+    {
+      "route": "/money-in",
+      "purpose": "Record money the student just received and show exactly how it will be divided across the purses before it is added.",
+      "elements": [
+        "Heading \"Add money you received\" and lede \"Variable income is fine. Add whatever came in, whenever it came.\"",
+        "Input label \"Amount received\" (type number, step 0.01, min 1) with a G$ prefix; Select label \"Where it came from\" with options From home, Scholarship, Side hust",
+        "Input label \"Savings share of this amount (%)\" prefilled from the saved plan, and \"Emergency share of this amount (%)\" prefilled from the plan.",
+        "Primary button \"Preview the split\" (disabled when the amount is empty or not positive). On click, reveal a breakdown card titled \"How G$50,000 will be shared\" l",
+        "Secondary button \"Add to my purses\" appears with the breakdown; on click it applies the split, clears the form and shows a success Notice \"Money added. Every pu",
+        "Client-side messages: \"Enter an amount in G$ first.\" when the amount is missing; \"Enter a valid amount.\" for zero/negative.",
+        "A small note \"Demo: adding money only updates the purses on this device.\""
+      ]
+    },
+    {
+      "route": "/spend",
+      "purpose": "Spend from one purse only, with the spending rules visible and enforced.",
+      "elements": [
+        "Heading \"Spend from a purse\" and lede \"Money leaves the purse you choose, and only that purse.\"",
+        "Purse chooser: six chips (Feeding, Transport, Personal needs, Academic, Emergency, Savings) rendered as buttons with aria-pressed, each showing the purse balanc",
+        "Input label \"Amount\" (type number, step 0.01) with G$ prefix and Input label \"What was it for\" (text, min 3 characters).",
+        "Rules card headed \"Spending rules\" with three lines: \"You can only spend what is in a purse.\", \"Savings stays locked until the end of the month.\", \"The emergenc",
+        "Primary button \"Spend\". Errors shown in a danger Notice: \"Savings is locked until the end of the month.\", \"That is more than this purse holds.\", \"Add a short no",
+        "Over half of the chosen purse in one go: a warning Notice \"That is more than half of this purse. Make sure it is really needed.\" and the button becomes \"Spend a",
+        "Success: success Notice \"Spent G$1,500 from Feeding. G$10,500 left in Feeding.\" and the purse balances update.",
+        "A small \"Recent spending\" list under the form: last five spend entries with amount, note and purse; empty state \"Nothing spent yet this month.\""
+      ]
+    },
+    {
+      "route": "/emergency",
+      "purpose": "Request money from the emergency purse by explaining the situation and recording a short clip, then run the demo check that approves or refers it.",
+      "elements": [
+        "Heading \"Emergency release\" and lede \"The emergency purse is for surprises. Explain what happened and record a short clip, and the check decides whether to rele",
+        "Persistent info Notice, tone info, title \"Demo check\": \"This verdict comes from simple rules on this device. It is a stand-in for the AI review that comes later",
+        "Emergency balance shown as a big tabular amount with \"Emergency purse balance\".",
+        "Textarea label \"What happened?\" with helper \"At least 20 characters, in your own words.\" and a live character count.",
+        "Recording block with title \"Record a short clip\": primary button \"Record a clip\" starts the camera (getUserMedia video and audio) and becomes \"Stop recording\"; ",
+        "Input label \"Amount you need\" (type number, min 1) with G$ prefix and a quick-fill button \"Half of it\" that sets half the emergency balance.",
+        "Primary button \"Run the demo check\". Errors: \"Explain what happened in at least 20 characters.\" and \"Enter an amount you need.\" and \"That is more than the emerg",
+        "Result card after the check: a Badge \"Approved\" (success) or \"Referred for review\" (warning), the amount, a list of reasons (for example \"A short clip helps app",
+        "A \"Previous requests\" list of requests made this month with date, amount and verdict; empty state \"No emergency requests yet.\""
+      ]
+    },
+    {
+      "route": "/report",
+      "purpose": "Show the money story: income, allocation, spending, savings and remaining balances, plus recent activity.",
+      "elements": [
+        "Heading \"Your report\" with the current month name and a success/info line \"All figures are demo figures for this device.\"",
+        "Four stat cards: \"Total money in\", \"Spent\", \"Saved\", \"Left across purses\", all tabular with the month label.",
+        "A per-purse table or stacked list headed \"Where your money is\": one row per purse with money in, spent, and balance now, plus a thin share bar.",
+        "Section \"Spending by purse\": horizontal bars per purse with its share of this month's spending as a percentage; empty state \"No spending to show yet.\"",
+        "Section \"Savings\": savings balance, the share held back per income, a progress bar toward a target of four times the monthly needs, and the line \"Savings stays ",
+        "Section \"Recent activity\": last twelve entries, newest first, each with the date, note or source, purse and a signed tabular amount; empty state \"Nothing yet. A",
+        "Card \"Share with a helper\": copy \"A helper you trust can see your purses and progress.\" with a disabled button \"Invite a helper\" and a Badge \"Next: wallet conne",
+        "Outline button \"Reset demo data\" (same Dialog and confirm as Home)."
+      ]
+    },
+    {
+      "route": "*",
+      "purpose": "Friendly not-found page inside the layout.",
+      "elements": [
+        "Heading \"That page is not part of Kudi yet.\" and a Link \"Back to my purses\" to /."
+      ]
+    }
+  ],
+  "contracts": [],
+  "data": [],
+  "acceptance": [
+    {
+      "name": "Dashboard shows the six purses and the demo label",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/"
+        },
+        {
+          "expect": {
+            "text": "Local demo"
+          }
+        },
+        {
+          "expect": {
+            "text": "Your purses"
+          }
+        },
+        {
+          "expect": {
+            "text": "Feeding"
+          }
+        },
+        {
+          "expect": {
+            "text": "Emergency"
+          }
+        },
+        {
+          "expect": {
+            "text": "Savings"
+          }
+        },
+        {
+          "expect": {
+            "text": "Add money I received"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student sets a monthly plan",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/setup"
+        },
+        {
+          "fill": {
+            "label": "Feeding budget"
+          },
+          "value": "25000"
+        },
+        {
+          "fill": {
+            "label": "Transport budget"
+          },
+          "value": "9000"
+        },
+        {
+          "fill": {
+            "label": "Savings share of each income (%)"
+          },
+          "value": "25"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Save my plan"
+          }
+        },
+        {
+          "expect": {
+            "text": "Plan saved"
+          }
+        },
+        {
+          "goto": "/"
+        },
+        {
+          "click": {
+            "text": "Edit plan"
+          }
+        },
+        {
+          "expect": {
+            "route": "/setup"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Money received is split across purses",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/money-in"
+        },
+        {
+          "fill": {
+            "label": "Amount received"
+          },
+          "value": "50000"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Preview the split"
+          }
+        },
+        {
+          "expect": {
+            "text": "How G$50,000 will be shared"
+          }
+        },
+        {
+          "expect": {
+            "text": "To savings"
+          }
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Add to my purses"
+          }
+        },
+        {
+          "expect": {
+            "text": "Money added"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spending from a purse updates its balance and savings is locked",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/spend"
+        },
+        {
+          "fill": {
+            "label": "Amount"
+          },
+          "value": "1500"
+        },
+        {
+          "fill": {
+            "label": "What was it for"
+          },
+          "value": "Lunch and water"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Spend"
+          }
+        },
+        {
+          "expect": {
+            "text": "left in Feeding"
+          }
+        },
+        {
+          "click": {
+            "text": "Savings"
+          }
+        },
+        {
+          "fill": {
+            "label": "Amount"
+          },
+          "value": "500"
+        },
+        {
+          "fill": {
+            "label": "What was it for"
+          },
+          "value": "New earbuds"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Spend"
+          }
+        },
+        {
+          "expect": {
+            "text": "Savings is locked until the end of the month."
+          }
+        }
+      ]
+    },
+    {
+      "name": "A spend larger than the purse is refused",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/spend"
+        },
+        {
+          "fill": {
+            "label": "Amount"
+          },
+          "value": "900000"
+        },
+        {
+          "fill": {
+            "label": "What was it for"
+          },
+          "value": "Big shopping"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Spend"
+          }
+        },
+        {
+          "expect": {
+            "text": "That is more than this purse holds."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Emergency request without a clip is referred for review",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/emergency"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Run the demo check"
+          }
+        },
+        {
+          "expect": {
+            "text": "Explain what happened in at least 20 characters."
+          }
+        },
+        {
+          "fill": {
+            "label": "What happened?"
+          },
+          "value": "My phone screen cracked and I need it repaired before my exams next week."
+        },
+        {
+          "fill": {
+            "label": "Amount you need"
+          },
+          "value": "3000"
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Run the demo check"
+          }
+        },
+        {
+          "expect": {
+            "text": "Referred for review"
+          }
+        },
+        {
+          "expect": {
+            "text": "A short clip helps approve it."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Report shows totals and can be reset",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/report"
+        },
+        {
+          "expect": {
+            "text": "Total money in"
+          }
+        },
+        {
+          "expect": {
+            "text": "Spending by purse"
+          }
+        },
+        {
+          "expect": {
+            "text": "Recent activity"
+          }
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Reset demo data"
+          }
+        },
+        {
+          "click": {
+            "role": "button",
+            "name": "Reset everything"
+          }
+        },
+        {
+          "expect": {
+            "text": "Demo data reset"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Navigation and unknown route",
+      "needs": "local",
+      "steps": [
+        {
+          "goto": "/"
+        },
+        {
+          "click": {
+            "role": "link",
+            "name": "Money in"
+          }
+        },
+        {
+          "expect": {
+            "route": "/money-in"
+          }
+        },
+        {
+          "goto": "/nope"
+        },
+        {
+          "expect": {
+            "text": "That page is not part of Kudi yet."
+          }
+        }
+      ]
+    }
+  ],
+  "outOfScope": [
+    "Wallet connection and any on-chain payment or contract (next milestone)",
+    "A real AI model or server for the emergency video review; the demo check is rule-based and labelled",
+    "Cloud sync or saving money state to an account; data stays in localStorage on this device",
+    "Helper invitations and shared access (shown as a disabled card)",
+    "Automatic monthly reset/unlock of the savings purse beyond the explanatory locked state"
+  ]
+}

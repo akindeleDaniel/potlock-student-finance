@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Kudi · Student money purses</title>
+    <meta name="description" content="Kudi splits every amount a student receives into purpose purses, protects emergency money and grows savings automatically." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: #FFF8FB;
+        --color-foreground: #2E0F20;
+        --color-muted: #FBEDF3;
+        --color-muted-foreground: #75495F;
+        --color-card: #FFFFFF;
+        --color-border: #F2D8E4;
+        --color-ring: #BE185D;
+        --color-primary: #6D1A45;
+        --color-primary-foreground: #FFFFFF;
+        --color-accent: #BE185D;
+        --color-accent-foreground: #FFFFFF;
+        --color-success: #047857;
+        --color-warning: #B45309;
+        --color-danger: #B91C1C;
+        --radius-lg: 0.75rem;
+        --font-sans: Outfit, ui-sans-serif, system-ui, sans-serif;
+        --font-display: Fraunces, Georgia, "Times New Roman", serif;
+      }
+      @layer base {
+        body {
+          @apply bg-muted text-foreground;
+          background-image:
+            radial-gradient(900px 520px at 50% -12%, rgba(190, 24, 93, 0.12), transparent 70%),
+            radial-gradient(620px 420px at 100% 8%, rgba(109, 26, 69, 0.07), transparent 72%);
+          background-repeat: no-repeat;
+        }
+        h1,
+        h2,
+        h3 {
+          font-family: var(--font-display);
+          letter-spacing: -0.015em;
+        }
+        :focus-visible {
+          outline: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-muted text-foreground antialiased">
+    <div id="root"></div>
+  </body>
+</html>

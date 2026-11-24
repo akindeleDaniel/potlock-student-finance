@@ -1,2 +1,3 @@
-# potlock-student-finance
-PotLock Student Finance, built with GoodBuild
+# PotLock Student Finance
+
+Built with [GoodBuild](https://goodbuildit.xyz). Edits made in GoodBuild are pushed here automatically.
